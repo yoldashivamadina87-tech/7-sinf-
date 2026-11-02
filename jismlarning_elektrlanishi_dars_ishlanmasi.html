@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dars ishlanmasi — Jismlarning elektrlanishi</title>
+<style>
+:root{--blue:#165dba;--navy:#12345a;--light:#eef6ff;--ink:#243247;--muted:#5d6b7c;--line:#dce5ef;--green:#147a52}
+*{box-sizing:border-box}
+body{margin:0;background:#f4f7fb;color:var(--ink);font:16px/1.65 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
+header{background:linear-gradient(135deg,#103b70,#1975c9);color:#fff;padding:44px 20px}
+header .wrap,main{max-width:1000px;margin:auto}
+header h1{font-size:clamp(2rem,5vw,3.2rem);line-height:1.15;margin:0 0 12px}
+header p{max-width:760px;margin:0;color:#e6f2ff}
+main{padding:24px 18px 60px}
+nav{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 24px}
+nav a{color:var(--blue);text-decoration:none;background:#fff;border:1px solid var(--line);border-radius:999px;padding:7px 12px;font-size:.9rem}
+section,.panel{background:#fff;border:1px solid var(--line);border-radius:16px;padding:24px;margin:18px 0;box-shadow:0 5px 18px #17395e0a}
+h2{color:var(--navy);font-size:1.55rem;margin:0 0 14px}
+h3{color:#174b82;margin:22px 0 8px}
+h4{margin:12px 0 6px}
+p{margin:9px 0}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.95rem}
+th,td{padding:10px 12px;border:1px solid var(--line);text-align:left;vertical-align:top}
+th{background:var(--light);color:var(--navy)}
+ul,ol{padding-left:24px}
+.callout{border-left:4px solid var(--blue);background:var(--light);padding:12px 16px;border-radius:8px;margin:14px 0}
+.sim{border:1px solid #c9d9eb;border-radius:14px;background:#f8fbff;padding:18px;margin:18px 0}
+.sim h3{margin-top:0}
+.sim a,.links a{color:#075eb8;font-weight:650}
+.actions{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0}
+button{border:0;border-radius:9px;background:var(--blue);color:white;padding:10px 15px;font:inherit;cursor:pointer}
+button.secondary{background:#e6eef8;color:#174b82;border:1px solid #c6d7eb}
+button:focus,a:focus,input:focus{outline:3px solid #91c5ff;outline-offset:2px}
+.stage{position:relative;min-height:210px;background:linear-gradient(#eaf5ff,#fff);border:1px solid #c9dff4;border-radius:12px;overflow:hidden;padding:12px}
+.balloon{position:absolute;left:18%;top:25px;width:82px;height:105px;border-radius:50% 50% 45% 45%;background:#e94c65;box-shadow:inset -12px -9px 0 #bd2845;cursor:grab;display:flex;align-items:center;justify-content:center;color:white;font-weight:bold}
+.balloon:after{content:"";position:absolute;bottom:-12px;width:16px;height:15px;background:#c52e49;clip-path:polygon(0 0,100% 0,50% 100%)}
+.sweater{position:absolute;right:14%;top:52px;width:145px;height:92px;border-radius:18px;background:#e8c879;border:2px solid #bb9547;display:flex;align-items:center;justify-content:center;text-align:center;font-weight:700;color:#5e471c}
+.wall{position:absolute;right:0;top:0;height:100%;width:8%;background:repeating-linear-gradient(0deg,#d7e1eb,#d7e1eb 18px,#c5d2df 19px)}
+.electron{position:absolute;width:10px;height:10px;border-radius:50%;background:#146bd1;border:1px solid white;box-shadow:0 0 0 2px #146bd133;animation:float 1.6s infinite alternate}
+@keyframes float{to{transform:translateY(-8px)}}
+.status{font-weight:700;color:var(--green);min-height:26px}
+.chargeboard{display:flex;gap:14px;align-items:center;justify-content:center;flex-wrap:wrap;background:#f5f9ff;border-radius:12px;padding:20px}
+.charge{width:100px;height:100px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:2rem;font-weight:800;color:#fff;box-shadow:inset -8px -8px 0 #0002;user-select:none}
+.positive{background:#e34b55}.negative{background:#286bc6}
+.fieldbox{width:100%;height:260px;background:#071d38;border-radius:12px;display:block}
+.quiz{padding:14px;border:1px solid var(--line);border-radius:12px;margin:12px 0}
+.quiz label{display:block;padding:5px 0;cursor:pointer}
+.result{font-weight:700;margin-top:12px}
+small,.muted{color:var(--muted)}
+footer{text-align:center;color:var(--muted);padding:24px}
+@media(max-width:650px){section,.panel{padding:17px}table{font-size:.86rem}th,td{padding:7px}.stage{min-height:230px}.sweater{right:5%;width:112px;font-size:.8rem}.balloon{left:8%;width:70px;height:90px}}
+@media print{body{background:white;font-size:12pt}header{background:#fff;color:#000;padding:20px 0}header p{color:#333}main{padding:0}nav,.actions,button{display:none!important}section,.panel{box-shadow:none;break-inside:avoid;border:1px solid #bbb}.sim{break-inside:avoid}a{color:#000;text-decoration:underline}}
+</style>
+</head>
+<body>
+<header>
+<div class="wrap">
+<h1>Jismlarning elektrlanishi</h1>
+<p>Interaktiv dars ishlanmasi · Fizika · 45 daqiqa · Virtual tajribalar va bilimni mustahkamlash</p>
+</div>
+</header>
+<main>
+<nav aria-label="Dars bo‘limlari">
+<a href="#info">Dars haqida</a><a href="#course">Dars borishi</a><a href="#intro">1. Kirish</a><a href="#electrification">2. Elektrlanish</a><a href="#two">3. Ikki jism</a><a href="#charges">4. Zaryadlar</a><a href="#field">5. Elektr maydon</a><a href="#review">6. Mustahkamlash</a><a href="#assessment">Baholash</a><a href="#homework">Uyga vazifa</a>
+</nav>
+
+<section id="info">
+<h2>1. Dars haqida umumiy ma’lumot</h2>
+<table>
+<tr><th>Ko‘rsatkich</th><th>Ma’lumot</th></tr>
+<tr><td>Fan</td><td>Fizika</td></tr>
+<tr><td>Mavzu</td><td>Jismlarning elektrlanishi</td></tr>
+<tr><td>Dars turi</td><td>Yangi bilim beruvchi va amaliy-interaktiv dars</td></tr>
+<tr><td>Dars davomiyligi</td><td>45 daqiqa</td></tr>
+<tr><td>Dars shakli</td><td>Yakka tartibda, juftlikda va guruhda ishlash</td></tr>
+<tr><td>Dars metodlari</td><td>Aqliy hujum, namoyish, virtual tajriba, savol-javob, muammoli ta’lim</td></tr>
+<tr><td>Jihozlar</td><td>Kompyuter, proyektor, internet, PhET simulyatsiyalari, plastik tayoqcha, jun mato, qog‘oz bo‘laklari, shar</td></tr>
+<tr><td>Fanlararo bog‘liqlik</td><td>Informatika, matematika, kimyo</td></tr>
+</table>
+<h3>Darsning maqsadi</h3>
+<p><b>Ta’limiy:</b> elektr hodisalari, elektrlanish, elektr zaryadining ikki turi, jismlarning o‘zaro elektr ta’siri va elektr maydon haqida bilim berish.</p>
+<p><b>Tarbiyaviy:</b> tabiat hodisalariga qiziqish, ilmiy dunyoqarash va texnik vositalardan oqilona foydalanish ko‘nikmalarini shakllantirish.</p>
+<p><b>Rivojlantiruvchi:</b> virtual tajribalar orqali kuzatish, taqqoslash, tahlil qilish va mustaqil xulosa chiqarish qobiliyatlarini rivojlantirish.</p>
+<h3>Kutilayotgan natijalar</h3>
+<ul><li>Elektrlanish hodisasini tushuntira oladi.</li><li>Elektr zaryadining ikki turini farqlaydi.</li><li>Ishqalanish orqali elektrlanishni izohlaydi.</li><li>Bir xil va har xil zaryadlarning o‘zaro ta’sirini tushuntiradi.</li><li>Elektr maydon va uning kuch chiziqlari haqida ma’lumot beradi.</li><li>Simulyatsiyalar yordamida virtual tajribalar bajaradi va xulosa chiqaradi.</li></ul>
+</section>
+
+<section id="course">
+<h2>2. Darsning borishi</h2>
+<table><thead><tr><th>Dars bosqichi</th><th>Vaqt</th><th>O‘qituvchi faoliyati</th><th>O‘quvchi faoliyati</th></tr></thead>
+<tbody>
+<tr><td>Tashkiliy qism</td><td>2 daqiqa</td><td>Salomlashadi, darsga tayyorlikni tekshiradi.</td><td>Darsga tayyorlanadi.</td></tr>
+<tr><td>Kirish va motivatsiya</td><td>5 daqiqa</td><td>Elektr hodisalari haqida savollar beradi.</td><td>Savollarga javob beradi.</td></tr>
+<tr><td>Yangi mavzu</td><td>20 daqiqa</td><td>1–5-bo‘limlarni tushuntiradi va simulyatsiyalarni namoyish etadi.</td><td>Kuzatadi, tajriba bajaradi.</td></tr>
+<tr><td>Mustahkamlash</td><td>10 daqiqa</td><td>Test va amaliy topshiriqlar beradi.</td><td>Topshiriqlarni bajaradi.</td></tr>
+<tr><td>Baholash</td><td>5 daqiqa</td><td>Bilimlarni baholaydi.</td><td>Javob beradi.</td></tr>
+<tr><td>Uyga vazifa</td><td>3 daqiqa</td><td>Uyga vazifani tushuntiradi.</td><td>Vazifani yozib oladi.</td></tr>
+</tbody></table>
+</section>
+
+<section id="intro">
+<h2>3. Darsning asosiy qismi</h2>
+<h3>1-bo‘lim. Kirish: elektr hodisalari bilan tanishuv</h3>
+<p><b>Maqsad:</b> elektr hodisalari haqida dastlabki tasavvur hosil qilish va mavzuga qiziqish uyg‘otish.</p>
+<p>Tabiatda va kundalik hayotda turli elektr hodisalari kuzatiladi: chaqmoq chaqishi, taroqning sochga ishqalangandan keyin mayda qog‘ozlarni tortishi, sharni sochga ishqalaganda devorga yopishishi, kiyimlarning bir-biriga yopishishi. Bu hodisalarning ayrimlari jismlarning elektrlanishi bilan bog‘liq.</p>
+<div class="callout"><b>Elektr hodisalari</b> — elektr zaryadlari, ularning o‘zaro ta’siri va elektr maydon bilan bog‘liq hodisalardir.</div>
+<h4>Muammoli savollar</h4>
+<ul><li>Nima sababdan taroq sochga ishqalangandan keyin qog‘oz bo‘laklarini tortadi?</li><li>Nima uchun sharni sochga ishqalagandan keyin devorga yopishishi mumkin?</li><li>Chaqmoq qanday elektr hodisasi hisoblanadi?</li><li>Jismlar orasida tegmasdan turib ham o‘zaro ta’sir bo‘lishi mumkinmi?</li></ul>
+<div class="sim">
+<h3>Simulyatsiya 1: Elektr hodisalarini kuzatish</h3>
+<p><b>PhET — John Travoltage.</b> Qahramon oyog‘ini gilam ustida ishqalab elektronlar to‘planishini, qo‘lini metall buyumga yaqinlashtirib elektr razryadini kuzatish imkonini beradi.</p>
+<div class="actions"><a href="https://phet.colorado.edu/en/simulations/john-travoltage" target="_blank" rel="noopener"><button>PhET simulyatsiyasini ochish ↗</button></a></div>
+<p><b>Kuzatiladigan hodisa:</b> ishqalanish natijasida elektronlar bir jismdan boshqasiga o‘tadi. Jismda ortiqcha zaryad to‘planishi mumkin.</p>
+<p><b>Xulosa:</b> ayrim elektr hodisalari jismlarning elektrlanishi va zaryadlarning o‘zaro ta’siri natijasida yuzaga keladi.</p>
+</div>
+</section>
+
+<section id="electrification">
+<h3>2-bo‘lim. Elektrlanish tushunchasi</h3>
+<p><b>Maqsad:</b> elektrlanish, ishqalanish orqali elektrlanish va elektronlarning ko‘chishini tushuntirish.</p>
+<p><b>Elektrlanish</b> — jismlarda elektr zaryadi hosil bo‘lishi yoki zaryadlarning qayta taqsimlanishi jarayonidir. Elektron yo‘qotgan jism musbat, elektron qabul qilgan jism manfiy zaryadlanadi.</p>
+<p>Jismlar elektrlanishi ishqalanish, tegish yoki elektr maydon ta’sirida zaryadlarning qayta taqsimlanishi orqali sodir bo‘lishi mumkin.</p>
+<div class="sim">
+<h3>Simulyatsiya 2: Ishqalanish orqali elektrlanish</h3>
+<p><b>PhET — Balloons and Static Electricity.</b> Sharni matoga ishqalab, elektronlarning matodan sharga o‘tishini va shar devorga tortilishini kuzating.</p>
+<div class="actions"><a href="https://phet.colorado.edu/en/simulations/balloons-and-static-electricity" target="_blank" rel="noopener"><button>PhET simulyatsiyasini ochish ↗</button></a></div>
+<div class="stage" id="balloonStage" aria-label="Shar va mato bilan statik elektrning soddalashtirilgan interaktiv ko‘rinishi">
+<div class="balloon" id="balloon" title="Sharni sudrab harakatlantiring">Shar</div>
+<div class="sweater">Jun mato<br><small>Elektronlar manbai</small></div>
+<div class="wall"></div>
+</div>
+<div class="actions"><button id="rubBtn">Sharni matoga ishqalash</button><button class="secondary" id="resetBalloon">Qayta boshlash</button></div>
+<p class="status" id="balloonStatus" aria-live="polite">Tajriba boshlanmadi. Sharni matoga ishqalang.</p>
+<p><b>Interaktiv ko‘rsatma:</b> sharni sichqoncha yoki barmoq bilan matoga yaqinlashtiring. “Sharni matoga ishqalash” tugmasini bosib, elektronlar ko‘chishini va zaryadlanishni kuzating. Bu soddalashtirilgan o‘quv modeli.</p>
+<p><b>Xulosa:</b> elektronlar matodan sharga o‘tganda shar manfiy zaryadlanadi. Elektrlangan shar devorga yaqinlashganda devordagi zaryadlar qayta taqsimlanishi sababli tortilish yuz berishi mumkin.</p>
+</div>
+</section>
+
+<section id="two">
+<h3>3-bo‘lim. Ikki jismning ham elektrlanishi</h3>
+<p><b>Maqsad:</b> ishqalanish jarayonida ikkala jism ham elektrlanishini tushuntirish.</p>
+<p>Ikki jism bir-biriga ishqalanganda elektronlar bir jismdan ikkinchisiga o‘tishi mumkin. Masalan, plastik tayoqcha jun matoga ishqalanganda plastik tayoqcha elektron qabul qilib manfiy, jun mato elektron yo‘qotib musbat zaryadlanishi mumkin.</p>
+<div class="callout"><b>Zaryadlarning saqlanish qonuni:</b> yopiq sistemada elektr zaryadlarining algebraik yig‘indisi o‘zgarmaydi.</div>
+<div class="sim">
+<h3>Simulyatsiya 3: Elektronlarning ko‘chishi</h3>
+<p>PhET simulyatsiyasida sharni jun matoga ishqalang. Elektronlar harakatini, mato va sharning zaryadlari qanday o‘zgarishini kuzating.</p>
+<div class="actions"><a href="https://phet.colorado.edu/en/simulations/balloons-and-static-electricity" target="_blank" rel="noopener"><button>PhET simulyatsiyasini ochish ↗</button></a></div>
+<p><b>Kuzatiladigan hodisa:</b> elektronlar matodan sharga o‘tadi, shar manfiy, mato esa musbat zaryadlanadi.</p>
+<p><b>Xulosa:</b> ishqalanish orqali elektrlanishda ikkala jism ham elektrlanadi va ular qarama-qarshi ishorali zaryadga ega bo‘ladi.</p>
+</div>
+</section>
+
+<section id="charges">
+<h3>4-bo‘lim. Elektr zaryadining ikki turi</h3>
+<p><b>Maqsad:</b> musbat va manfiy zaryadlar hamda ularning o‘zaro ta’sirini o‘rgatish.</p>
+<p>Elektr zaryadlari ikki turga bo‘linadi: musbat (+) va manfiy (−). Bir xil ishorali zaryadlar itarishadi, har xil ishorali zaryadlar tortishadi. Elektr zaryadining SI birligi — kulon (C), belgisi — <i>q</i>.</p>
+<table><tr><th>Zaryadlar</th><th>O‘zaro ta’siri</th></tr><tr><td>+ va +</td><td>Itarishadi</td></tr><tr><td>− va −</td><td>Itarishadi</td></tr><tr><td>+ va −</td><td>Tortishadi</td></tr></table>
+<div class="sim">
+<h3>Simulyatsiya 4: Zaryadlarning o‘zaro ta’siri</h3>
+<p>Quyidagi mini-modelda zaryad turini o‘zgartirib, jismlarni yaqinlashtiring yoki uzoqlashtiring. Model o‘zaro ta’sir qoidasini ko‘rsatadi.</p>
+<div class="chargeboard">
+<div><label for="chargeA">1-jism</label><br><select id="chargeA"><option value="1">Musbat (+)</option><option value="-1">Manfiy (−)</option></select></div>
+<div class="charge positive" id="chargeOne">+</div>
+<div id="interaction" aria-live="polite"><b>Itarishadi ↔</b></div>
+<div class="charge positive" id="chargeTwo">+</div>
+<div><label for="chargeB">2-jism</label><br><select id="chargeB"><option value="1">Musbat (+)</option><option value="-1">Manfiy (−)</option></select></div>
+</div>
+<div class="actions"><button id="nearBtn">Jismlarni yaqinlashtirish</button><button class="secondary" id="farBtn">Uzoqlashtirish</button></div>
+<p class="status" id="chargeStatus" aria-live="polite">Bir xil zaryadlar itarishadi.</p>
+<div class="actions"><a href="https://phet.colorado.edu/en/simulations/charges-and-fields" target="_blank" rel="noopener"><button>PhET — Charges and Fields ↗</button></a></div>
+<p><b>Xulosa:</b> elektr zaryadlari orasidagi o‘zaro ta’sir ularning ishoralariga bog‘liq.</p>
+</div>
+</section>
+
+<section id="field">
+<h3>5-bo‘lim. Elektr maydon</h3>
+<p><b>Maqsad:</b> elektr maydon tushunchasi, uning kuch chiziqlari va zaryadlar atrofidagi maydonni tushuntirish.</p>
+<p><b>Elektr maydon</b> — elektr zaryadlari atrofida mavjud bo‘lib, boshqa zaryadlarga kuch bilan ta’sir qiladigan fizik maydon.</p>
+<ul><li>Musbat zaryaddan maydon kuch chiziqlari tashqariga yo‘naladi.</li><li>Manfiy zaryadga maydon kuch chiziqlari yo‘naladi.</li><li>Elektr maydon kuch chiziqlari bir-birini kesishmaydi.</li><li>Maydon kuchliroq bo‘lgan joyda kuch chiziqlari zichroq tasvirlanadi.</li></ul>
+<div class="callout"><b>Elektr maydon kuchlanganligi:</b> E = F/q<br>E — maydon kuchlanganligi; F — zaryadga ta’sir qiluvchi kuch; q — sinov zaryadi. Birligi — N/C.</div>
+<div class="sim">
+<h3>Simulyatsiya 5: Elektr maydonni kuzatish</h3>
+<p>Quyidagi sxematik maydon chizmasida zaryad turini tanlang. Bu ko‘rgazma maydon chiziqlarining yo‘nalishini tushuntiruvchi soddalashtirilgan model.</p>
+<label for="fieldType">Zaryad turi:</label>
+<select id="fieldType"><option value="positive">Musbat (+)</option><option value="negative">Manfiy (−)</option><option value="dipole">Dipol (+ va −)</option></select>
+<svg class="fieldbox" id="fieldSvg" viewBox="0 0 700 260" role="img" aria-label="Elektr maydon kuch chiziqlari diagrammasi"></svg>
+<div class="actions"><a href="https://phet.colorado.edu/en/simulations/charges-and-fields" target="_blank" rel="noopener"><button>PhET — Charges and Fields ↗</button></a></div>
+<p><b>Kuzatish:</b> musbat zaryadda chiziqlar tashqariga, manfiy zaryadda ichkariga yo‘naladi. Dipolda chiziqlar musbat zaryaddan manfiy zaryadga qarab boradi.</p>
+<p><b>Xulosa:</b> elektr maydon zaryadlar orasidagi o‘zaro ta’sirni amalga oshiruvchi fizik maydondir.</p>
+</div>
+</section>
+
+<section id="review">
+<h2>4. Mavzuni mustahkamlash</h2>
+<h3>A. Interaktiv test savollari</h3>
+<p>Har bir savolga javob tanlang va “Natijani tekshirish” tugmasini bosing.</p>
+<div id="quiz"></div>
+<div class="actions"><button id="checkQuiz">Natijani tekshirish</button><button class="secondary" id="resetQuiz">Testni qayta boshlash</button></div>
+<div class="result" id="quizResult" aria-live="polite"></div>
+<h3>B. Mantiqiy savollar</h3>
+<ol><li>Nima uchun elektrlangan taroq mayda qog‘oz bo‘laklarini tortadi, lekin dastlab taroq qog‘ozga tegmagan bo‘ladi?</li><li>Ikki jism ishqalanganda elektronlar bir jismdan ikkinchisiga o‘tsa, nima sababdan ikkala jism ham elektrlanadi?</li><li>Nima sababdan elektr maydon mavjud bo‘lgan joyda zaryadga kuch ta’sir qiladi?</li></ol>
+<h3>C. Amaliy topshiriqlar</h3>
+<p><b>1-topshiriq.</b> Plastik taroqni quruq sochga ishqalang va mayda qog‘oz bo‘laklariga yaqinlashtiring. Kuzatgan hodisangizni tushuntiring.</p>
+<p><b>2-topshiriq.</b> PhET simulyatsiyasida sharni matoga ishqalang. Elektronlar qaysi yo‘nalishda harakatlanganini va jismlarning qanday zaryadlanganini aniqlang.</p>
+<h3>D. Virtual tajriba</h3>
+<p><b>Tajriba nomi:</b> Sharni ishqalash orqali elektrlanish.</p>
+<p><b>Maqsad:</b> ishqalanish orqali elektrlanishni va elektr zaryadlarining o‘zaro ta’sirini kuzatish.</p>
+<ol><li>Simulyatsiyada shar va matoni tanlang.</li><li>Sharni matoga ishqalang.</li><li>Elektronlar harakatini kuzating.</li><li>Sharning devorga yaqinlashtirilishini kuzating.</li><li>Elektrlangan shar va devor orasidagi o‘zaro ta’sirni tushuntiring.</li></ol>
+<p><b>Tajriba xulosasi:</b> ishqalanish orqali elektronlar bir jismdan ikkinchisiga o‘tadi. Elektrlangan jism boshqa jismga tegmasdan ham elektr ta’sir ko‘rsatishi mumkin.</p>
+</section>
+
+<section id="assessment">
+<h2>5. Darsni baholash</h2>
+<table><tr><th>Mezon</th><th>Ball</th></tr><tr><td>Elektrlanish tushunchasini izohlash</td><td>2</td></tr><tr><td>Elektr zaryadining ikki turini farqlash</td><td>2</td></tr><tr><td>Elektr maydonni tushuntirish</td><td>2</td></tr><tr><td>Simulyatsiya orqali tajriba bajarish</td><td>2</td></tr><tr><td>Savollarga to‘g‘ri javob berish va xulosa chiqarish</td><td>2</td></tr><tr><th>Jami</th><th>10 ball</th></tr></table>
+<h3>Refleksiya</h3>
+<ul><li>Bugun qanday yangi bilim oldingiz?</li><li>Qaysi simulyatsiya sizga eng qiziqarli bo‘ldi?</li><li>Elektrlanish hodisasini endi qanday tushuntira olasiz?</li><li>Qaysi mavzu siz uchun qiyinroq bo‘ldi?</li></ul>
+<p>O‘quvchilar “Men bilib oldim…”, “Men kuzatdim…”, “Menga qiziq bo‘ldi…” jumlalari orqali javoblarini ifodalaydi.</p>
+</section>
+
+<section id="homework">
+<h2>6. Uyga vazifa</h2>
+<ol><li>“Jismlarning elektrlanishi” mavzusini o‘qib kelish.</li><li>Kundalik hayotda uchraydigan 3 ta elektrlanish hodisasiga misol yozish.</li><li>PhET simulyatsiyasida sharni ishqalash tajribasini takrorlash va kuzatgan hodisasini yozib kelish.</li><li>“Elektrlanishning hayotimizdagi ahamiyati” mavzusida 5–6 ta gapdan iborat matn tayyorlash.</li></ol>
+<h3>Foydalaniladigan virtual laboratoriyalar</h3>
+<table><tr><th>Simulyatsiya</th><th>O‘rganiladigan hodisa</th><th>Havola</th></tr>
+<tr><td>John Travoltage</td><td>Ishqalanish, elektronlar harakati va elektr razryadi</td><td><a href="https://phet.colorado.edu/en/simulations/john-travoltage" target="_blank" rel="noopener">Ochish ↗</a></td></tr>
+<tr><td>Balloons and Static Electricity</td><td>Elektrlanish, elektronlarning ko‘chishi va zaryadlar ta’siri</td><td><a href="https://phet.colorado.edu/en/simulations/balloons-and-static-electricity" target="_blank" rel="noopener">Ochish ↗</a></td></tr>
+<tr><td>Charges and Fields</td><td>Zaryadlar, elektr maydon va maydon kuch chiziqlari</td><td><a href="https://phet.colorado.edu/en/simulations/charges-and-fields" target="_blank" rel="noopener">Ochish ↗</a></td></tr></table>
+<div class="callout"><b>Umumiy xulosa:</b> o‘quvchilar jismlarning elektrlanishi, elektr zaryadining ikki turi, zaryadlarning o‘zaro ta’siri va elektr maydon haqida bilimga ega bo‘ladilar. Virtual laboratoriyalar yordamida hodisalarni kuzatadilar, tajribalar bajaradilar va fizik qonuniyatlarni amaliy jihatdan tushunib oladilar.</div>
+<div class="actions"><button onclick="window.print()">Dars ishlanmasini chop etish / PDF saqlash</button></div>
+</section>
+<footer>“Jismlarning elektrlanishi” — interaktiv fizika dars ishlanmasi</footer>
+</main>
+<script>
+const balloon=document.getElementById('balloon');
+const stage=document.getElementById('balloonStage');
+const status=document.getElementById('balloonStatus');
+let charged=false,dragging=false,offsetX=0,offsetY=0;
+function moveBalloon(e){
+ if(!dragging)return;
+ const r=stage.getBoundingClientRect();
+ let x=e.clientX-r.left-offsetX, y=e.clientY-r.top-offsetY;
+ x=Math.max(0,Math.min(r.width-balloon.offsetWidth,x));
+ y=Math.max(0,Math.min(r.height-balloon.offsetHeight,y));
+ balloon.style.left=(x/r.width*100)+'%';balloon.style.top=(y/r.height*100)+'%';
+}
+balloon.addEventListener('pointerdown',e=>{
+ dragging=true;balloon.setPointerCapture(e.pointerId);
+ const r=balloon.getBoundingClientRect();offsetX=e.clientX-r.left;offsetY=e.clientY-r.top;
+});
+balloon.addEventListener('pointermove',moveBalloon);
+balloon.addEventListener('pointerup',()=>dragging=false);
+document.getElementById('rubBtn').addEventListener('click',()=>{
+ charged=true;balloon.style.background='#286bc6';balloon.style.boxShadow='inset -12px -9px 0 #164b8a';
+ status.textContent='Elektronlar matodan sharga o‘tdi: shar manfiy zaryadlandi. Uni devorga yaqinlashtirib tortilishni kuzating.';
+ balloon.textContent='− −';});
+document.getElementById('resetBalloon').addEventListener('click',()=>{
+ charged=false;balloon.style.left='18%';balloon.style.top='25px';balloon.style.background='#e94c65';
+ balloon.style.boxShadow='inset -12px -9px 0 #bd2845';balloon.textContent='Shar';
+ status.textContent='Tajriba qayta boshlandi. Sharni matoga ishqalang.';
+});
+
+const ca=document.getElementById('chargeA'),cb=document.getElementById('chargeB');
+const one=document.getElementById('chargeOne'),two=document.getElementById('chargeTwo'),inter=document.getElementById('interaction'),cs=document.getElementById('chargeStatus');
+function updateCharges(){
+ const a=Number(ca.value),b=Number(cb.value);
+ one.textContent=a>0?'+':'−';two.textContent=b>0?'+':'−';
+ one.className='charge '+(a>0?'positive':'negative');two.className='charge '+(b>0?'positive':'negative');
+ const same=a===b;
+ inter.innerHTML=same?'<b>Itarishadi ↔</b>':'<b>Tortishadi →←</b>';
+ cs.textContent=same?'Bir xil ishorali zaryadlar itarishadi.':'Har xil ishorali zaryadlar tortishadi.';
+}
+ca.addEventListener('change',updateCharges);cb.addEventListener('change',updateCharges);
+document.getElementById('nearBtn').addEventListener('click',()=>{one.style.transform='scale(1.12) translateX(18px)';two.style.transform='scale(1.12) translateX(-18px)';});
+document.getElementById('farBtn').addEventListener('click',()=>{one.style.transform='';two.style.transform='';});
+updateCharges();
+
+const svg=document.getElementById('fieldSvg'),ft=document.getElementById('fieldType');
+function drawField(){
+ const type=ft.value;
+ let out='<defs><marker id="arr" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 z" fill="#8ecbff"/></marker></defs>';
+ const cx=type==='dipole'?250:350,cy=130;
+ function line(x1,y1,x2,y2){return `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#8ecbff" stroke-width="1.7" marker-end="url(#arr)"/>`;}
+ if(type==='dipole'){
+  for(let i=0;i<9;i++){let y=30+i*25;out+=`<path d="M 250 130 C 330 ${y-20}, 390 ${y-20}, 450 130" fill="none" stroke="#8ecbff" stroke-width="1.6" marker-end="url(#arr)"/>`;out+=`<path d="M 250 130 C 330 ${y+20}, 390 ${y+20}, 450 130" fill="none" stroke="#8ecbff" stroke-width="1.6" marker-end="url(#arr)"/>`;}
+  out+='<circle cx="250" cy="130" r="23" fill="#e34b55"/><text x="250" y="138" text-anchor="middle" fill="white" font-size="26" font-weight="bold">+</text>';
+  out+='<circle cx="450" cy="130" r="23" fill="#286bc6"/><text x="450" y="138" text-anchor="middle" fill="white" font-size="26" font-weight="bold">−</text>';
+ }else{
+  for(let i=0;i<16;i++){let a=i*Math.PI*2/16, x1=cx+36*Math.cos(a),y1=cy+36*Math.sin(a),x2=cx+112*Math.cos(a),y2=cy+112*Math.sin(a);
+   if(type==='negative'){[x1,x2]=[x2,x1];[y1,y2]=[y2,y1];}
+   out+=line(x1,y1,x2,y2);
+  }
+  const color=type==='positive'?'#e34b55':'#286bc6',sign=type==='positive'?'+':'−';
+  out+=`<circle cx="${cx}" cy="${cy}" r="25" fill="${color}"/><text x="${cx}" y="${cy+9}" text-anchor="middle" fill="white" font-size="28" font-weight="bold">${sign}</text>`;
+ }
+ svg.innerHTML=out;
+}
+ft.addEventListener('change',drawField);drawField();
+
+const qs=[
+{q:'Elektrlanish deb nimaga aytiladi?',opts:['Jismning qizishi','Jismda elektr zaryadi hosil bo‘lishi yoki qayta taqsimlanishi','Jismning erishi','Jismning yorug‘lik chiqarishi'],a:1,why:'Elektrlanish jismning elektr zaryadga ega bo‘lishi yoki zaryadlarning qayta taqsimlanishi bilan bog‘liq.'},
+{q:'Elektron yo‘qotgan jism qanday zaryadlanadi?',opts:['Manfiy','Musbat','Zaryadsiz','Faqat qiziydi'],a:1,why:'Elektronlar manfiy zaryadga ega. Ularni yo‘qotgan jism musbat zaryadlanadi.'},
+{q:'Bir xil ishorali zaryadlar qanday ta’sirlashadi?',opts:['Tortishadi','Itarishadi','Ta’sirlashmaydi','Erib ketadi'],a:1,why:'Bir xil ishorali zaryadlar o‘zaro itarishadi.'},
+{q:'Elektr zaryadining SI birligi nima?',opts:['Volt','Amper','Kulon','Om'],a:2,why:'Elektr zaryadining SI birligi kulon (C).'},
+{q:'Elektr maydon kuchlanganligi formulasi qaysi?',opts:['E=F/q','F=ma','U=IR','P=UI'],a:0,why:'Elektr maydon kuchlanganligi sinov zaryadiga ta’sir qiluvchi kuchning zaryadga nisbatiga teng.'}
+];
+const quiz=document.getElementById('quiz');
+function buildQuiz(){
+ quiz.innerHTML='';
+ qs.forEach((q,i)=>{
+  const box=document.createElement('div');box.className='quiz';
+  const title=document.createElement('b');title.textContent=(i+1)+'. '+q.q;box.appendChild(title);
+  q.opts.forEach((opt,j)=>{
+   const label=document.createElement('label');
+   const radio=document.createElement('input');radio.type='radio';radio.name='q'+i;radio.value=j;
+   label.appendChild(radio);label.append(' '+opt);box.appendChild(label);
+  });
+  const feedback=document.createElement('div');feedback.className='muted feedback';box.appendChild(feedback);
+  quiz.appendChild(box);
+ });
+}
+buildQuiz();
+document.getElementById('checkQuiz').addEventListener('click',()=>{
+ let score=0,answered=0;
+ [...quiz.querySelectorAll('.quiz')].forEach((box,i)=>{
+  const sel=box.querySelector('input:checked'),fb=box.querySelector('.feedback');
+  if(sel){answered++;if(Number(sel.value)===qs[i].a)score++;}
+  fb.textContent=sel?(Number(sel.value)===qs[i].a?'To‘g‘ri! ':'Noto‘g‘ri. ')+qs[i].why:'Javob tanlanmagan. To‘g‘ri javob: '+qs[i].opts[qs[i].a]+'. '+qs[i].why;
+ });
+ document.getElementById('quizResult').textContent=`Natija: ${score}/${qs.length}. Javob berilgan: ${answered}/${qs.length}.`;
+});
+document.getElementById('resetQuiz').addEventListener('click',()=>{buildQuiz();document.getElementById('quizResult').textContent='';});
+</script>
+</body>
+</html>
