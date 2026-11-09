@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="uz"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>11. Yuzani qanday oʻlchaymiz</title>
+<style>
+:root{--bg:#fff;--fg:#1a1a1a;--c:#f1f5f9;--b:#cbd5e1;--a:#2563eb;--ok:#16a34a;--no:#dc2626}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#111827;--fg:#e5e7eb;--c:#1f2937;--b:#374151;--a:#60a5fa}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.45 system-ui,sans-serif;padding:env(safe-area-inset-top) 12px env(safe-area-inset-bottom)}
+main{max-width:760px;margin:auto;padding:12px 0 40px}h1{font-size:1.3rem}h2{font-size:1.05rem;margin:0}
+details{background:var(--c);border:1px solid var(--b);border-radius:10px;margin:10px 0;padding:10px}
+summary{cursor:pointer;font-weight:600}.d{opacity:.7;font-weight:400;font-size:.85rem}
+button{background:var(--a);color:#fff;border:0;border-radius:8px;padding:8px 12px;margin:3px 3px 3px 0;font:inherit;cursor:pointer}
+button.ok{background:var(--ok)}button.no{background:var(--no)}button:disabled{opacity:.9}
+.plan{border-top:1px dashed var(--b);margin-top:8px;padding-top:8px}.sim{background:var(--bg);border:1px solid var(--b);border-radius:8px;padding:10px;margin-top:6px}
+pre{white-space:pre-wrap;background:var(--bg);border:1px solid var(--b);border-radius:8px;padding:8px;font:.85rem/1.4 inherit}
+input[type=number]{width:70px;padding:6px;border-radius:6px;border:1px solid var(--b);background:var(--bg);color:var(--fg)}input[type=range]{width:100%}
+svg,canvas{max-width:100%;height:auto;color:var(--fg)}.out{margin-top:6px;font-weight:600}
+</style></head><body><main>
+<h1>7-sinf fizika · I chorak · 11-mavzu</h1>
+<div id="app"></div></main>
+<script>
+const IDX=10;
+const q=(a,b,c)=>[a,b,c];
+const T=[
+{t:"Fizika fani nimani oʻrganadi? Fizik hodisalar",d:"4–5.09",p:[
+{h:"Hodisani tanib ol",d:"Savol-muammo: «Nima uchun koptok dumalaydi, muz eriydi?» Hodisalarni turlarga ajratish.",s:["s",["Mexanik","Issiqlik","Yorugʻlik","Tovush"],[["Koptok dumalashi",0],["Suvning qaynashi",1],["Kamalak",2],["Qoʻngʻiroq jiringlashi",3],["Muzning erishi",1],["Soya hosil boʻlishi",2]]]},
+{h:"Fizik yoki kimyoviy?",d:"Yangi bilim: modda tarkibi oʻzgarishi bilan oʻzgarmasligini farqlash.",s:["s",["Fizik","Kimyoviy"],[["Suv bugʻlanishi",0],["Temirning zanglashi",1],["Qogʻozning yirtilishi",0],["Olov yonishi",1],["Shakarning erishi",0],["Sutning achishi",1]]]},
+{h:"Mustahkamlash testi",d:"Asosiy tushunchalar: jism, modda, hodisa.",s:["q",[q("Fizika nimani oʻrganadi?","Tabiat hodisalarini|Faqat moddalar tarkibini|Oʻsimliklarni",0),q("Stol — bu …","Modda|Jism|Hodisa",1),q("Fizik hodisaga misol:","Yomgʻir yogʻishi|Non pishishi|Qogʻoz yonishi",0)]]}]},
+{t:"Fizika fanini oʻrganishdagi muhim tamoyillar",d:"11.09",p:[
+{h:"Kuzatish: mayatnik",d:"Savol-muammo: tebranish vaqti nimaga bogʻliq? Uzunlikni oʻzgartirib kuzating.",s:["p"]},
+{h:"Tajriba va xulosa",d:"Kuzatish, faraz, tajriba, xulosa ketma-ketligi.",s:["q",[q("Birinchi qadam:","Kuzatish|Xulosa|Hisoblash",0),q("Faraz — bu …","Isbotlangan qonun|Taxminiy fikr|Oʻlchov asbobi",1),q("Xulosa qachon chiqariladi?","Tajribadan oldin|Tajribadan keyin|Hech qachon",1)]]},
+{h:"Masala yechish: v = s/t",d:"Berilgan–Topilsin–Yechilishi tartibi.",s:["q",[q("s = 120 m, t = 20 s. v = ?","6 m/s|60 m/s|0,17 m/s",0),q("s = 90 km, t = 3 h. v = ?","30 km/h|270 km/h|3 km/h",0),q("Masalada birinchi yoziladi:","Javob|Berilgan|Formula",1)]]}]},
+{t:"Fizika fanini oʻrganishda qanday koʻnikmalarga ega boʻlish kerak?",d:"12.09, 18.09",p:[
+{h:"Koʻnikmalarni aniqlash",d:"Savol-muammo: olim qanday ishlaydi? Koʻnikma turlari.",s:["s",["Kuzatish","Oʻlchash","Xulosa chiqarish"],[["Mayatnikni tomosha qilish",0],["Uzunlikni chizgʻich bilan aniqlash",1],["«Uzunlik ortsa, T ortadi»",2],["Suv rangi oʻzgarishini sezish",0],["Vaqtni sekundomerda olish",1]]]},
+{h:"Oʻlchash koʻnikmasi",d:"Chizgʻich shkalasidan toʻgʻri hisob olish.",s:["r"]},
+{h:"Maʼlumotni tahlil qilish",d:"3 marta oʻlchab, oʻrtacha va xatolikni topish.",s:["e",["Daftar uzunligi"]]}]},
+{t:"Laboratoriya jihozlari va qurilmalar",d:"19.09, 25.09",p:[
+{h:"Jihoz — kattalik",d:"Savol-muammo: massani nima bilan oʻlchaymiz? Jihozlarni kattalikka moslash.",s:["s",["Uzunlik","Massa","Vaqt","Hajm"],[["Chizgʻich",0],["Tarozi",1],["Sekundomer",2],["Menzurka",3],["Metr",0],["Soat",2]]]},
+{h:"Jihozdan foydalanish",d:"Menzurka, tarozi, termometr qoidalari.",s:["q",[q("Menzurkada suv sathi qanday oʻqiladi?","Koʻz sath bilan teng|Yuqoridan|Pastdan",0),q("Termometr maʼlumot beradi:","Massa|Temperatura|Hajm",1),q("Tarozida jism qoʻyiladi:","Qoʻl bilan bosib|Pallaga ehtiyotkorlik bilan|Yerga",1)]]},
+{h:"Chizgʻich bilan amaliyot",d:"Bahslashuv: ish stoli simulyatori.",s:["r"]}]},
+{t:"Fizika laboratoriya xonasida texnika xavfsizligi qoidalari",d:"26.09",p:[
+{h:"Xavfsiz yoki xavfli?",d:"Savol-muammo: laboratoriyada nima xavfli?",s:["s",["Xavfsiz","Xavfli"],[["Qoʻlni yuvish",0],["Asbobni ustozsiz ulash",1],["Xalat kiyish",0],["Sinik shishani ushlash",1],["Yugurib yurish",1],["Qoidalarni oʻqish",0]]]},
+{h:"Favqulodda holatlar",d:"Yangi bilim: shisha sinsa, yongʻin, tok urishi.",s:["q",[q("Shisha sinsa:","Qoʻl bilan yigʻaman|Ustozga aytaman|Yashiraman",1),q("Yongʻin boshlansa:","Ustozga xabar berib chiqaman|Qoʻrqib turaman|Suv sepaman (elektrda)",0),q("Elektr asbobi ulanadi:","Ustoz ruxsati bilan|Xohlagan paytda|Nam qoʻl bilan",0)]]},
+{h:"Mustahkamlash testi",d:"Qoidalar boʻyicha yakuniy nazorat.",s:["q",[q("Laboratoriyada ovqatlanish mumkinmi?","Ha|Yoʻq|Tanaffusda",1),q("Asbobni ishlatishdan oldin:","Yoʻriqnomani oʻqiyman|Sinab koʻraman|Hech narsa",0)]]}]},
+{t:"Fizika va texnologiya",d:"2.10",p:[
+{h:"Qurilma — hodisa",d:"Savol-muammo: choynak nega «hushtak chalar»? Texnika orqasidagi fizika.",s:["s",["Mexanika","Issiqlik","Elektr","Yorugʻlik"],[["Velosiped",0],["Choynak",1],["Lampochka",2],["Koʻzoynak",3],["Muzlatgich",1],["Mobil telefon",2]]]},
+{h:"Kashfiyot va hayot",d:"Fizika yutuqlarining texnikadagi oʻrni.",s:["q",[q("Elektr lampochkani ixtiro qilgan:","Edison|Nyuton|Ulugʻbek",0),q("Fizika bilimi kerak:","Faqat olimga|Har bir texnikaga|Hech qayerga",1)]]},
+{h:"Mustahkamlash",d:"Oʻz hayotidan misollar.",s:["q",[q("Mikroto‘lqinli pech ishlaydi:","Elektromagnit toʻlqin bilan|Suv bilan|Shamol bilan",0),q("Velosipedda asosiy hodisa:","Mexanik harakat|Kimyoviy reaksiya|Tovush",0)]]}]},
+{t:"Nazorat ishi (1)",d:"3.10",p:[
+{h:"Tayyorgarlik",d:"Takrorlash: hodisalar va tamoyillar.",s:["q",[q("Fizik hodisa:","Muzning erishi|Zanglash|Yonish",0),q("Birinchi qadam:","Kuzatish|Xulosa",0)]]},
+{h:"Nazorat testi",d:"Laboratoriya va xavfsizlik.",s:["q",[q("Menzurka oʻlchaydi:","Hajm|Massa|Vaqt",0),q("Sekundomer oʻlchaydi:","Vaqt|Uzunlik|Massa",0),q("Sinik shisha:","Ustozga aytiladi|Yashiriladi",0)]]},
+{h:"Oʻzini tekshirish",d:"Guruhlash topshirigʻi.",s:["s",["Jism","Hodisa"],[["Stol",0],["Yomgʻir",1],["Qalam",0],["Erish",1]]]}]},
+{t:"Nima uchun oʻlchashlarni amalga oshirish kerak?",d:"9.10",p:[
+{h:"Taxmin va oʻlchash",d:"Savol-muammo: «koʻz bilan» aniq aytib boʻladimi? Taxminni oʻlchov bilan solishtirish.",s:["r"]},
+{h:"Oʻlchashning ahamiyati",d:"Aniqlik, takrorlanuvchanlik, solishtirish.",s:["q",[q("Oʻlchash nima uchun kerak?","Aniq maʼlumot olish|Chiroyli koʻrinish|Vaqt oʻtkazish",0),q("«Katta», «uzun» — bu …","Aniq oʻlchov|Taxminiy baho",1)]]},
+{h:"Takroriy oʻlchash",d:"Natijaning oʻzgarishini koʻrish.",s:["e",["Qalam uzunligi"]]}]},
+{t:"Fizik kattaliklar va Xalqaro birliklar sistemasi (XBS)",d:"10.10",p:[
+{h:"Kattalik yoki birlik?",d:"Savol-muammo: «5» ning oʻzi nimani anglatadi?",s:["s",["Kattalik","Birlik"],[["Massa",0],["Kilogramm",1],["Vaqt",0],["Sekund",1],["Uzunlik",0],["Metr",1]]]},
+{h:"XBS birliklari",d:"m, kg, s, K va ularning belgilari.",s:["q",[q("Massa birligi (XBS):","Gramm|Kilogramm|Tonna",1),q("Vaqt birligi:","Sekund|Soat|Daqiqa",0),q("Uzunlik birligi:","Metr|Kilometr|Santimetr",0)]]},
+{h:"Birliklarni almashtirish",d:"Karrali va ulushli birliklar.",s:["q",[q("2 m = ? sm","20|200|2000",1),q("3 km = ? m","30|300|3000",2),q("500 g = ? kg","0,5|5|50",0)]]}]},
+{t:"Uzunlikni qanday oʻlchaymiz",d:"16.10",p:[
+{h:"Chizgʻich bilan oʻlchash",d:"Savol-muammo: jism chetidan nol nuqtagacha boʻlgan farq.",s:["r"]},
+{h:"Uzunlik birliklari",d:"mm, sm, dm, m, km oʻtishlari.",s:["q",[q("1 m = ? mm","100|1000|10",1),q("250 sm = ? m","2,5|25|0,25",0),q("1 km = ? m","100|1000|10000",1)]]},
+{h:"Oʻlchash xatoligi",d:"Uch marta oʻlchab oʻrtachani topish.",s:["e",["Parta uzunligi"]]}]},
+{t:"Yuzani qanday oʻlchaymiz",d:"17.10, 23.10",p:[
+{h:"Katakchalarni sanash",d:"Savol-muammo: notekis shakl yuzasini qanday topamiz? Yuza birligi 1 sm².",s:["g"]},
+{h:"Formulalar",d:"S = a·b, birliklar oʻtishi.",s:["q",[q("a = 4 sm, b = 5 sm. S = ?","9 sm²|20 sm²|20 sm",1),q("1 m² = ? sm²","100|1000|10 000",2),q("Yuza birligi:","sm|sm²|sm³",1)]]},
+{h:"Shakllar bilan mashq",d:"Murakkab shakllarni boʻlaklarga ajratish.",s:["g"]}]},
+{t:"Amaliy topshiriq: inson tanasi qismlarining uzunligini oʻlchash",d:"24.10",p:[
+{h:"Qarich va oyoq kafti",d:"Savol-muammo: qadimda nimalar bilan oʻlchashgan? Oʻz oʻlchamlaringizni yozing.",s:["e",["Qarich (sm)","Oyoq kafti (sm)"]]},
+{h:"Boʻy va quloch",d:"Juftlikda oʻlchab, taqqoslash.",s:["e",["Boʻy (sm)","Quloch (sm)"]]},
+{h:"Natijalar muhokamasi",d:"Nima uchun odamlarda natija har xil?",s:["q",[q("Inson tanasi birligi nega noqulay?","Hamma uchun bir xil emas|Juda aniq|Qimmat",0),q("Shuning uchun ishlatiladi:","Standart birlik (m)|Qarich|Oyoq izi",0)]]}]},
+{t:"Nazorat ishi (2)",d:"30.10",p:[
+{h:"Tayyorgarlik",d:"Kattaliklar, birliklar.",s:["q",[q("3 m = ? sm","30|300",1),q("Massa birligi:","kg|m",0)]]},
+{h:"Nazorat testi",d:"Uzunlik va yuza.",s:["q",[q("a=3, b=6 sm. S = ?","18 sm²|9 sm²",0),q("1 km = ? m","1000|100",0),q("Uzunlik asbobi:","Chizgʻich|Tarozi",0)]]},
+{h:"Oʻlchov mashqi",d:"Chizgʻich amaliyoti.",s:["r"]}]},
+{t:"Xatolar ustida ishlash",d:"31.10",p:[
+{h:"Xatolar turlari",d:"Savol-muammo: qayerda adashdik?",s:["q",[q("Eng koʻp xato:","Nol nuqtani notoʻgʻri qoʻyish|Chizgʻich qalinligi",0),q("Birlikni yozmaslik:","Xato|Toʻgʻri",0)]]},
+{h:"Qayta oʻlchash",d:"Xatoni tuzatib, qayta oʻlchash.",s:["e",["Kitob eni"]]},
+{h:"Yakuniy mashq",d:"Chorak xulosasi.",s:["q",[q("Oʻlchash natijasi yoziladi:","Son + birlik|Faqat son",0),q("Qaysi biri kattalik?","Uzunlik|Metr",0)]]}]}
+];
+const MP=`Sen 7-sinf fizika metodisti va HTML dasturchisisan. 2026–2027 oʻquv yili I chorak (4.09–31.10, 18 soat) mavzulari boʻyicha ishla:
+1) Har bir mavzu uchun 3 ta dars reja tuz (savol-muammo → yangi bilim → mustahkamlash). Har rejada: maqsad, 45 daqiqalik vaqt taqsimoti, kutilgan natija, baholash mezoni.
+2) Har bir rejaga 1 tadan interaktiv simulyatsiya qoʻsh (bitta HTML fayl, oʻzbek tilida, telefon va planshetga moslashgan, yorugʻ/qorongʻi rejim, slayder, "Tekshirish" tugmasi, natija va xatolar tahlili).
+3) Mavzular jadval ketma-ketligida boʻlsin; takroriy mavzular (2 soat) ikkita dars sifatida kengaytirilsin.
+4) Fizik xatolar boʻlmasin, til 7-sinf oʻquvchisiga mos va sodda boʻlsin.
+Mavzular:
+`+T.map((t,i)=>`${i+1}. ${t.t} (${t.d})`).join("\n");
+function cp(id){const s=typeof id==="string"?(document.getElementById(id)||{}).textContent:id;try{navigator.clipboard.writeText(s)}catch(e){}}
+/* simulyatsiyalar */
+function Q(el,qs){let i=0,sc=0;(function show(){if(i>=qs.length){el.innerHTML=`<b>Natija: ${sc}/${qs.length}</b> <button>Qayta</button>`;el.querySelector("button").onclick=()=>Q(el,qs);return}
+const [a,o,k]=qs[i];el.innerHTML=`<p>${a}</p>`+o.split("|").map((x,j)=>`<button data-k="${j}">${x}</button>`).join("");
+el.querySelectorAll("button").forEach(b=>b.onclick=()=>{const ok=+b.dataset.k===k;if(ok)sc++;b.className=ok?"ok":"no";el.querySelectorAll("button").forEach(x=>x.disabled=true);setTimeout(()=>{i++;show()},900)})})()}
+function S(el,c,it){Q(el,it.map(x=>[x[0]+" — qaysi guruh?",c.join("|"),x[1]]))}
+function R(el){let o,L;const n=()=>{o=Math.floor(Math.random()*4);L=Math.round((2+Math.random()*8)*2)/2;
+let s="";for(let m=0;m<=120;m++){const x=15+m*2.5,h=m%10?m%5?8:14:20;s+=`<line x1="${x}" x2="${x}" y1="40" y2="${40+h}" stroke="currentColor"/>`;if(m%10==0)s+=`<text x="${x-4}" y="78" font-size="11" fill="currentColor">${m/10}</text>`}
+el.innerHTML=`<svg viewBox="0 0 330 85"><rect x="${15+o*25}" y="12" width="${L*25}" height="18" fill="#2563eb"/><line x1="15" x2="315" y1="40" y2="40" stroke="currentColor"/>${s}</svg><p>Koʻk jism uzunligi necha sm? (jism 0 dan boshlanmaydi!)</p><input type="number" step="0.5"> <button>Tekshirish</button><div class="out"></div>`;
+el.querySelector("button").onclick=()=>{const v=parseFloat(el.querySelector("input").value),d=el.querySelector(".out");d.textContent=Math.abs(v-L)<.01?"✅ Toʻgʻri! Keyingisi…":`❌ Toʻgʻri javob: ${L} sm (oxirgi chiziq − boshlangʻich chiziq).`;if(Math.abs(v-L)<.01)setTimeout(n,1200)}};n()}
+function G(el){const a=3+Math.floor(Math.random()*4),b=3+Math.floor(Math.random()*3),c=1+Math.floor(Math.random()*2),d=1+Math.floor(Math.random()*2),A=a*b-c*d;let s="";
+for(let x=0;x<a;x++)for(let y=0;y<b;y++)if(!(x>=a-c&&y<d))s+=`<rect x="${10+x*28}" y="${10+y*28}" width="28" height="28" fill="#93c5fd" stroke="#1e40af"/>`;
+el.innerHTML=`<svg viewBox="0 0 ${a*28+20} ${b*28+20}" width="${a*28+20}">${s}</svg><p>1 katak = 1 sm². Shakl yuzasi necha sm²?</p><input type="number"> <button>Tekshirish</button> <button>Yangi shakl</button><div class="out"></div>`;
+const bs=el.querySelectorAll("button");bs[0].onclick=()=>el.querySelector(".out").textContent=+el.querySelector("input").value===A?"✅ Toʻgʻri!":`❌ Qayta sanang. (Toʻgʻri javob: ${A} sm²)`;bs[1].onclick=()=>G(el)}
+function P(el){const k=el._k=(el._k||0)+1;el.innerHTML='<canvas width="300" height="200"></canvas><label>Ip uzunligi: <b>100</b> sm</label><input type="range" min="10" max="200" value="100"><p></p>';
+const x=el.querySelector("canvas").getContext("2d"),r=el.querySelector("input"),p=el.querySelector("p"),lv=el.querySelector("b"),t0=performance.now();
+(function f(){if(el._k!==k||el.hidden)return;const L=+r.value,T=2*Math.PI*Math.sqrt(L/100/9.81),t=(performance.now()-t0)/1000,a=.4*Math.cos(2*Math.PI*t/T),l=20+L*.8,px=150+l*Math.sin(a),py=10+l*Math.cos(a);
+x.clearRect(0,0,300,200);x.strokeStyle=x.fillStyle=getComputedStyle(el).color;x.beginPath();x.moveTo(150,10);x.lineTo(px,py);x.stroke();x.beginPath();x.arc(px,py,10,0,7);x.fill();
+lv.textContent=L;p.textContent=`T = 2π√(l/g) ≈ ${T.toFixed(2)} s · 10 tebranish ≈ ${(10*T).toFixed(1)} s. Uzunlik ortsa, davr ham ortadi.`;requestAnimationFrame(f)})()}
+function E(el,names){el.innerHTML=names.map((n,i)=>`<p><b>${n}</b> — 3 marta oʻlchang (sm):<br><input type="number" step="any"> <input type="number" step="any"> <input type="number" step="any"></p>`).join("")+'<button>Hisoblash</button><div class="out"></div>';
+el.querySelector("button").onclick=()=>{let o="";el.querySelectorAll("p").forEach((p,i)=>{const v=[...p.querySelectorAll("input")].map(x=>parseFloat(x.value));if(v.some(isNaN)){o+=`${names[i]}: 3 ta qiymat kiriting<br>`;return}
+const m=v.reduce((a,b)=>a+b)/3,e=Math.max(...v.map(x=>Math.abs(x-m)));o+=`${names[i]}: ${m.toFixed(2)} ± ${e.toFixed(2)} sm<br>`});el.querySelector(".out").innerHTML=o}}
+function sim(el,s){const f={q:()=>Q(el,s[1]),s:()=>S(el,s[1],s[2]),r:()=>R(el),g:()=>G(el),p:()=>P(el),e:()=>E(el,s[1])};f[s[0]]()}
+/* sahifa */
+const app=document.getElementById("app");
+T.forEach((t,i)=>{if(i!==IDX)return;const pr=`7-sinf fizika, I chorak, ${i+1}-mavzu: «${t.t}» (${t.d}). Quyidagi 3 reja boʻyicha dars ishlanma va har biriga interaktiv simulyatsiya (bitta HTML, oʻzbek tilida) yoz:\n`+t.p.map((p,j)=>`${j+1}) ${p.h} — ${p.d}`).join("\n");
+const d=document.createElement("details");d.open=true;d.innerHTML=`<summary>${i+1}. ${t.t} <span class="d">(${t.d})</span></summary>`+
+t.p.map((p,j)=>`<div class="plan"><b>${j+1}-reja: ${p.h}</b><br>${p.d}<br><button class="go" data-j="${j}">▶ Simulyatsiya</button><div class="sim" hidden></div></div>`).join("");
+d.querySelectorAll(".go").forEach(b=>b.onclick=()=>{const z=b.nextElementSibling;z.hidden=!z.hidden;if(!z.hidden)sim(z,t.p[b.dataset.j].s)});
+app.appendChild(d)});
+</script></body></html>
