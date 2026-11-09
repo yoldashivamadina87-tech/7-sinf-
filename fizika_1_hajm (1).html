@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="uz"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Hajmni qanday o‘lchaymiz? · 7-sinf Fizika</title>
+<style>
+:root{--bg:#f4f7fb;--card:#fff;--tx:#1b2a3a;--mut:#5b6b7c;--ac:#2563eb;--ln:#dbe3ee}
+@media(prefers-color-scheme:dark){:root{--bg:#10161e;--card:#18212c;--tx:#e6edf5;--mut:#93a3b5;--ac:#5b8cff;--ln:#2a3645}}
+*{box-sizing:border-box}
+#tt{display:none}
+body{margin:0 auto;font-family:system-ui,sans-serif;background:var(--bg);color:var(--tx);padding:12px;max-width:820px}
+h1{font-size:19px;margin:6px 0}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
+button{font:inherit;font-size:14px;border:1px solid var(--ln);background:var(--card);color:var(--tx);padding:7px 11px;border-radius:9px;cursor:pointer}
+button.on{background:var(--ac);color:#fff;border-color:var(--ac)}
+.card{background:var(--card);border:1px solid var(--ln);border-radius:14px;padding:12px;margin-top:10px}
+canvas{width:100%;border-radius:10px;display:block;background:#eaf3ff}
+.row{display:flex;align-items:center;gap:8px;margin:6px 0;font-size:14px}
+.row label{flex:0 0 42%}.row input{flex:1}.row span{flex:0 0 74px;font-weight:600}
+.out{font-size:15px;line-height:1.6;margin:8px 0}.out b{color:var(--ac)}
+.mut{color:var(--mut);font-size:13px}
+table{border-collapse:collapse;width:100%;font-size:14px;margin-top:8px}
+td,th{border-bottom:1px solid var(--ln);padding:4px;text-align:left}
+input[type=number]{width:110px;font:inherit;padding:7px;border-radius:8px;border:1px solid var(--ln);background:var(--bg);color:var(--tx)}
+.ok{color:#16a34a;font-weight:600}.no{color:#dc2626;font-weight:600}
+</style></head><body>
+<h1>⚛️ Hajmni qanday o‘lchaymiz?</h1>
+<div class="tabs" id="tt"></div>
+<div class="tabs" id="mt"></div>
+<div class="card">
+<div class="mut" id="note"></div>
+<div class="out" id="rule"></div>
+<canvas id="cv" width="640" height="300"></canvas>
+<div id="ctl"></div>
+<div class="out" id="out"></div>
+<div id="gm" style="display:none">
+<input type="number" id="ans" step="any" placeholder="Javob"> <button onclick="chk()">Tekshirish</button> <button onclick="go()">Keyingi savol ➜</button>
+<div class="out" id="fb"></div><div class="mut" id="sc">Ball: 0 / 0</div></div>
+<div id="lb" style="display:none"><div class="out" id="lt"></div>
+<button onclick="rec1()">📏 O‘lchash va yozib olish</button> <button onclick="rec=[];tb()">Tozalash</button><div id="tb"></div></div>
+</div>
+<script>
+const $=id=>document.getElementById(id),cv=$('cv'),c=cv.getContext('2d'),W=640,H=300;
+let ti=0,mi=0,S={},T=0,rec=[],task=null,sc=[0,0],bal={a:0};
+const fmt=n=>String(+(+n).toFixed(2)).replace('.',',');
+const L=(a,b,x,y,col,w)=>{c.strokeStyle=col;c.lineWidth=w||1;c.beginPath();c.moveTo(a,b);c.lineTo(x,y);c.stroke()};
+const R=(x,y,w,h,col,r)=>{c.fillStyle=col;c.beginPath();c.roundRect(x,y,w,h,r||0);c.fill()};
+const X=(s,x,y,col,sz,al)=>{c.fillStyle=col||'#1b2a3a';c.font=(sz||13)+'px system-ui,sans-serif';c.textAlign=al||'left';c.fillText(s,x,y)};
+const O=(x,y,r,col)=>{c.fillStyle=col;c.beginPath();c.arc(x,y,r,0,7);c.fill()};
+function car(x,y,col){R(x,y-20,64,16,col,5);R(x+14,y-32,34,16,col,6);R(x+19,y-29,10,10,'#cfe6ff',2);R(x+33,y-29,10,10,'#cfe6ff',2);O(x+14,y-3,8,'#222');O(x+50,y-3,8,'#222')}
+function road(){R(0,215,W,36,'#59606b');for(let i=0;i<W;i+=40)R(i,232,22,3,'#fff');R(0,251,W,49,'#8fb98a')}
+const flag=(x,y,t)=>{L(x,y,x,y-48,'#222',2);R(x,y-48,26,16,'#d33',2);X(t,x,y-54,'#123',13,'center')};
+
+const TP=[
+{s:'Hajm',n:'Hajmni qanday o‘lchaymiz?',rule:'V = V₂ − V₁  (1 ml = 1 sm³)',
+ sl:[{id:'v1',n:'Boshlang‘ich suv V₁',min:50,max:120,step:10,val:100,u:'ml',lb:1},{id:'vo',n:'Jism hajmi',min:10,max:60,step:5,val:30,u:'sm³',gm:0,lb:0}],
+ draw(s,t){const k=t%5,inn=k>1.6,V=s.v1+(inn?s.vo:0),cx=290,w=80,top=30,bot=270,pm=1.2,g=mi==1;
+  R(0,270,W,30,'#c9b79c');const y=bot-V*pm;c.fillStyle='rgba(56,140,230,.55)';c.fillRect(cx,y,w,bot-y);
+  const r=6+Math.cbrt(s.vo)*3.2,by=k<1.6?20+(k/1.6)*(bot-r-20):bot-r;O(cx+w/2,by,r,'#8a8f98');
+  c.strokeStyle='#4a5a6a';c.lineWidth=3;c.beginPath();c.moveTo(cx,top);c.lineTo(cx,bot);c.lineTo(cx+w,bot);c.lineTo(cx+w,top);c.stroke();
+  for(let m=0;m<=200;m+=10){const yy=bot-m*pm;L(cx,yy,cx+(m%50?12:22),yy,'#4a5a6a',1.5);if(m%50==0)X(m,cx-6,yy+4,'#1b2a3a',12,'right')}
+  X('ml (sm³)',cx-6,22,'#1b2a3a',12,'right');
+  L(cx+w,bot-s.v1*pm,cx+w+60,bot-s.v1*pm,'#c2410c',1.5);if(!g)X('V₁ = '+s.v1,cx+w+64,bot-s.v1*pm+4,'#c2410c',13);
+  if(inn){L(cx+w,y,cx+w+60,y,'#15803d',1.5);if(!g)X('V₂ = '+(s.v1+s.vo),cx+w+64,y+4,'#15803d',13)}},
+ info:(s,f)=>`V₁ = ${s.v1} ml, V₂ = ${s.v1+s.vo} ml`+(f?`<br>V = V₂ − V₁ = <b>${s.vo} sm³</b>`:''),
+ mk:s=>({q:'Jism suvli menzurkaga tushirildi. Suv sathini shkaladan o‘qib, jism hajmini toping.',ans:s.vo,tol:.5,u:'sm³'}),
+ lab:{t:'Jism hajmini o‘lchang: V = V₂ − V₁. Boshlang‘ich suv hajmini o‘zgartirib, bir necha marta o‘lchang va o‘rtachasini oling.',f:s=>s.vo,n:'V, sm³',e:.06}},
+{s:'Massa',n:'Massani qanday o‘lchaymiz?',rule:'Tarozi muvozanatda: jism massasi = toshlar massasi',
+ sl:[{id:'m',n:'Jism massasi',min:10,max:200,step:5,val:100,u:'g',gm:0,lb:0},{id:'w',n:'Toshlar massasi',min:0,max:250,step:5,val:0,u:'g',gm:1,lb:1}],
+ draw(s,t){const tg=Math.max(-1,Math.min(1,(s.m-s.w)/60))*.25;bal.a+=(tg-bal.a)*.08;const a=bal.a,px=320,py=90,B=170,co=Math.cos(a),si=Math.sin(a);
+  R(px-5,py,10,175,'#6b7a8a',3);R(px-80,262,160,14,'#6b7a8a',5);
+  const lx=px-B*co,ly=py+B*si,rx=px+B*co,ry=py-B*si;L(lx,ly,rx,ry,'#334',7);O(px,py,8,'#334');
+  [[lx,ly],[rx,ry]].forEach(p=>{L(p[0],p[1],p[0]-50,p[1]+85,'#667',1.5);L(p[0],p[1],p[0]+50,p[1]+85,'#667',1.5);R(p[0]-55,p[1]+85,110,6,'#445',3)});
+  const q=Math.cbrt(s.m)*5+14;R(lx-q/2,ly+85-q,q,q,'#f2a33a',4);if(mi==0)X(s.m+' g',lx,ly+112,'#123',14,'center');
+  const nb=Math.floor(s.w/50);for(let i=0;i<nb;i++)R(rx-50+i*20,ry+69,18,16,'#5b7fa6',2);
+  for(let i=0;i<(s.w%50)/5;i++)R(rx-50+i*10,ry+(nb?60:76),9,9,'#8aa8c9',1);
+  X(s.w+' g',rx,ry+112,'#123',14,'center');if(tg==0&&Math.abs(a)<.01)X('⚖ Muvozanat!',px,40,'#15803d',20,'center')},
+ info:(s,f)=>`Toshlar: <b>${s.w} g</b>`+(f?` · Jism: <b>${s.m} g</b><br>`+(s.m==s.w?'Muvozanat: <b>m = '+s.w+' g</b>':s.m>s.w?'Jism og‘irroq — tosh qo‘shing':'Toshlar og‘irroq — kamaytiring'):''),
+ mk:s=>({q:()=>`Tarozini muvozanatga keltirib, jism massasini toping. Toshlar: ${S.w} g`,ans:s.m,tol:.1,u:'g'}),
+ ready:s=>s.m==s.w,rd:'Avval tarozini muvozanatga keltiring (toshlar massasi = jism massasi).',
+ lab:{t:'Tarozini toshlar bilan muvozanatga keltiring va jism massasini yozib oling. Boshqa jism uchun sahifani qayta yuklang.',f:s=>s.m,n:'m, g',e:.02}},
+{s:'Vaqt',n:'Vaqtni qanday o‘lchaymiz?',rule:'T = t / N  (N — tebranishlar soni, T — bitta tebranish davri)',
+ sl:[{id:'L',n:'Ip uzunligi',min:.2,max:2,step:.1,val:1,u:'m',gm:0,lb:1}],
+ draw(s,t){const Tp=2*Math.PI*Math.sqrt(s.L/9.8),tt=t%(10*Tp+2),tr=Math.min(tt,10*Tp),px=250,py=30,len=s.L*115+10,th=.22*Math.cos(2*Math.PI*tr/Tp);
+  R(px-60,py-10,120,8,'#6b7a8a',3);const bx=px+len*Math.sin(th),by=py+len*Math.cos(th);L(px,py,bx,by,'#4a5a6a',2);O(bx,by,14,'#e0572d');
+  const sx=530,sy=90;O(sx,sy,50,'#4a5a6a');O(sx,sy,46,'#fff');const h=2*Math.PI*(tr%60)/60-Math.PI/2;L(sx,sy,sx+40*Math.cos(h),sy+40*Math.sin(h),'#e0572d',2.5);
+  X(tr.toFixed(2)+' s',sx,sy+82,'#123',20,'center');X('Tebranishlar: '+Math.min(10,Math.floor(tr/Tp+1e-9))+' / 10',sx,sy+106,'#123',14,'center')},
+ info:(s,f)=>{const T1=2*Math.PI*Math.sqrt(s.L/9.8);return `L = ${s.L} m`+(f?`<br>10 ta tebranish vaqti: <b>${fmt(10*T1)} s</b> → T = <b>${fmt(T1)} s</b>`:'')},
+ mk:s=>({q:`Mayatnik uzunligi L = ${s.L} m. Secundomerdan 10 ta tebranish vaqtini o‘qing.`,ans:20*Math.PI*Math.sqrt(s.L/9.8),tol:.1,u:'s'}),
+ lab:{t:'Mayatnikning 10 ta tebranish vaqtini bir necha marta o‘lchang, o‘rtachasidan T = t/10 ni toping. Uzunlikni o‘zgartirib takrorlang.',f:s=>20*Math.PI*Math.sqrt(s.L/9.8),n:'t₁₀, s',e:.06,post:m=>`Bitta tebranish davri T = t/10 = <b>${fmt(m/10)} s</b>`}},
+{s:'Mexanik harakat',n:'Jismlarning mexanik harakati',rule:'Harakat nisbiydir: u sanoq jismiga nisbatan aniqlanadi',
+ sl:[{id:'v',n:'Avtomobil tezligi',min:2,max:20,step:2,val:10,u:'m/s',gm:0,lb:1},{id:'f',n:'Sanoq jismi',min:0,max:1,step:1,val:0,o:['Yer (daraxt)','Avtomobil'],gm:0,lb:1}],
+ draw(s,t){const tt=Math.min(t%6,5),cw=s.v*tt,cam=s.f?cw-24:0,ox=m=>40+(m-cam)*5;road();
+  let x=ox(25);R(x-6,170,12,52,'#7a5230');O(x,160,30,'#2f8f4e');X('Daraxt',x,270,'#123',12,'center');
+  x=ox(60);R(x-30,180,60,42,'#d9a066');c.fillStyle='#b5453a';c.beginPath();c.moveTo(x-36,180);c.lineTo(x,150);c.lineTo(x+36,180);c.fill();X('Uy',x,270,'#123',12,'center');
+  x=ox(95);R(x-3,150,6,72,'#555');X('Ustun',x,270,'#123',12,'center');car(40+(cw-cam)*5,244,'#e0572d');
+  X('Sanoq jismi: '+(s.f?'Avtomobil':'Yer'),12,24,'#123',16);X('t = '+tt.toFixed(1)+' s',12,46,'#123',15);
+  X(s.f?'Daraxt, uy, ustun avtomobilga nisbatan orqaga harakatlanmoqda':'Avtomobil Yerga nisbatan harakatlanmoqda',12,70,'#c2410c',13)},
+ info:(s,f)=>{const d=s.v*5;return `Avtomobil tezligi (Yerga nisbatan): ${s.v} m/s<br>Sanoq jismi: <b>${s.f?'Avtomobil':'Yer'}</b>`+(f?`<br>5 s da avtomobilning ko‘chishi: <b>${s.f?0:d} m</b><br>Daraxtning ko‘chishi: <b>${s.f?d+' m (orqaga)':'0 m'}</b>`:'')},
+ mk:s=>({q:`Avtomobil Yerga nisbatan ${s.v} m/s tezlik bilan yurmoqda. Sanoq jismi — ${s.f?'avtomobil':'Yer'}. 5 s da avtomobil sanoq jismiga nisbatan necha m ko‘chadi?`,ans:s.f?0:s.v*5,tol:.5,u:'m'}),
+ lab:{t:'Sanoq jismini almashtirib, avtomobilning 5 s dagi ko‘chishini (s = v·t) yozib oling. Natijalarni solishtiring.',f:s=>s.f?0:s.v*5,n:'s, m',e:0}},
+{s:'Tezlik',n:'Tezlik',rule:'s = v · t,  v = s / t,  t = s / v  (SI: m, s, m/s)',
+ sl:[{id:'v',n:'Tezlik v',min:1,max:30,step:1,val:10,u:'m/s',gm:0,lb:1},{id:'t',n:'Vaqt t',min:1,max:20,step:1,val:6,u:'s',gm:0,lb:1}],
+ draw(s,t){const f=Math.max(1,s.t/6),tt=(t*f)%(s.t+1.5),tr=Math.min(tt,s.t),x0=60,x1=560,cx=x0+tr/s.t*(x1-x0);road();
+  flag(x0,215,'start');flag(x1,215,'finish');car(cx-30,244,'#e0572d');
+  X('v = '+s.v+' m/s    t = '+tr.toFixed(2)+' s',320,34,'#123',20,'center');
+  if(mi!=1){X(fmt(s.v*tr)+' m',cx,170,'#c2410c',14,'center');X('s = '+s.v*s.t+' m',x1,172,'#15803d',13,'center')}
+  if(f>1)X('Animatsiya ×'+f.toFixed(1)+' tezlashtirilgan, taymer haqiqiy vaqtni ko‘rsatadi',320,292,'#5b6b7c',12,'center')},
+ info:(s,f)=>`v = ${s.v} m/s, t = ${s.t} s`+(f?`<br>s = v·t = <b>${s.v*s.t} m</b>`:''),
+ mk:s=>({q:`Avtomobil v = ${s.v} m/s tezlik bilan ${s.t} s harakatlandi. Bosib o‘tgan yo‘l s necha metr?`,ans:s.v*s.t,tol:.5,u:'m'}),
+ lab:{t:'v va t ni tanlang, s = v·t formula bilan yo‘lni hisoblab yozib oling. Turli qiymatlar uchun takrorlang.',f:s=>s.v*s.t,n:'s, m',e:0}},
+{s:'Tezlikni o‘lchash',n:'Tezlikni o‘lchash',rule:'v = s / t  — yo‘l va vaqtni o‘lchab tezlik topiladi',
+ sl:[{id:'v',n:'Tezlik (yashirin)',min:5,max:25,step:5,val:10,u:'m/s',gm:0,lb:0},{id:'D',n:'A va B orasi',min:20,max:100,step:10,val:60,u:'m',gm:0,lb:1}],
+ draw(s,t){const T1=s.D/s.v,f=Math.max(1,T1/6),tt=(t*f)%(T1+2),tr=Math.min(tt,T1),x0=80,x1=560,cx=x0+tr/T1*(x1-x0);road();
+  flag(x0,215,'A');flag(x1,215,'B');L(x0,190,x1,190,'#334',1.5);X('D = '+s.D+' m',320,184,'#123',14,'center');car(cx-30,244,'#2563eb');
+  X('Taymer: '+tr.toFixed(2)+' s',320,34,'#123',22,'center');if(mi==0)X('v = '+s.v+' m/s',320,60,'#c2410c',15,'center');
+  if(f>1)X('Animatsiya ×'+f.toFixed(1)+' tezlashtirilgan, taymer haqiqiy vaqtni ko‘rsatadi',320,292,'#5b6b7c',12,'center')},
+ info:(s,f)=>`D = ${s.D} m`+(f?`, t = D/v = ${fmt(s.D/s.v)} s<br>v = D/t = <b>${s.v} m/s</b>`:''),
+ mk:s=>({q:`A va B nuqtalar orasi D = ${s.D} m. Avtomobil A dan B gacha yurganda taymer ko‘rsatishidan tezlikni toping (m/s).`,ans:s.v,tol:s.v*.06+.05,u:'m/s'}),
+ lab:{t:'Taymer ko‘rsatishini o‘qib, v = D/t ni hisoblang va yozib oling. A–B masofani o‘zgartirib takrorlang.',f:s=>s.v,n:'v, m/s',e:.06}},
+{s:'Grafiklar',n:'Yo‘l va tezlik grafiklari',rule:'Tekis harakat: s = s₀ + v·t. s–t grafigi — to‘g‘ri chiziq, v–t grafigi — gorizontal chiziq',
+ sl:[{id:'v',n:'Tezlik v',min:1,max:10,step:1,val:5,u:'m/s',gm:0,lb:0},{id:'s0',n:'Boshlang‘ich koordinata s₀',min:0,max:20,step:5,val:10,u:'m',gm:0,lb:0}],
+ draw(s,t){const tc=Math.min(t%12,10);
+  const pl=(x0,ym,st,tl,fn,sh)=>{const y0=30,w=250,h=200,Y=v=>y0+h-v/ym*h;
+   for(let i=0;i<=10;i++){const x=x0+i*w/10;L(x,y0,x,y0+h,'#d3deea',1);if(i%2==0)X(i,x,y0+h+16,'#334',11,'center')}
+   for(let v=0;v<=ym;v+=st){L(x0,Y(v),x0+w,Y(v),'#d3deea',1);if(v%(st*2)==0)X(v,x0-5,Y(v)+4,'#334',11,'right')}
+   if(sh){c.fillStyle='rgba(37,99,235,.2)';c.fillRect(x0,Y(fn(0)),tc*w/10,y0+h-Y(fn(0)))}
+   L(x0,y0,x0,y0+h,'#334',2);L(x0,y0+h,x0+w,y0+h,'#334',2);X(tl,x0,y0-10,'#123',13);X('t, s',x0+w/2,y0+h+32,'#334',12,'center');
+   L(x0,Y(fn(0)),x0+w,Y(fn(10)),'#b8c7d9',1.5);L(x0,Y(fn(0)),x0+tc*w/10,Y(fn(tc)),'#2563eb',3);O(x0+tc*w/10,Y(fn(tc)),5,'#e0572d')};
+  pl(40,120,10,'s, m  —  s–t grafigi',q=>s.s0+s.v*q,0);pl(350,12,1,'v, m/s  —  v–t grafigi',()=>s.v,1);
+  L(40,284,600,284,'#8a97a6',2);R(40+(s.s0+s.v*tc)/120*540-9,274,18,9,'#e0572d',3);X('t = '+tc.toFixed(1)+' s',320,16,'#123',13,'center')},
+ info:(s,f)=>f?`s = ${s.s0} + ${s.v}·t;  v = <b>${s.v} m/s</b><br>Chiziq og‘ishi tezlikni bildiradi: v qancha katta bo‘lsa, s–t grafigi shuncha tik.`:'Grafiklarni kuzating.',
+ mk:s=>{const N=2+Math.floor(Math.random()*8);return{q:`Grafikdan foydalanib, t = ${N} s dagi jism koordinatasini (s, m) toping.`,ans:s.s0+s.v*N,tol:2,u:'m'}},
+ lab:{t:'Grafikdan t = 0 va t = 10 s dagi koordinatalarni o‘qing va v = (s₁ − s₀)/10 ni hisoblab, tezlikni yozib oling.',f:s=>s.v,n:'v, m/s',e:.06}}
+];
+TP.splice(0,TP.length,TP[0]);
+const MN=['1-reja · Tushuntirish','2-reja · Interaktiv o‘yin','3-reja · Laboratoriya'],
+NT=['An’anaviy dars: o‘qituvchi sliderlarni o‘zgartirib hodisani tushuntiradi, o‘quvchilar kuzatib qoidani chiqaradi.','Interaktiv dars: guruhlar savolga javob topadi, to‘g‘ri javob uchun ball yig‘iladi.','Amaliy dars: o‘lchovlarni jadvalga yozing va o‘rtacha qiymatni toping.'];
+const rnd=d=>+(d.min+d.step*Math.floor(Math.random()*Math.round((d.max-d.min)/d.step+1))).toFixed(3);
+function tabs(){$('tt').innerHTML='';$('mt').innerHTML='';
+ TP.forEach((p,i)=>{const b=document.createElement('button');b.textContent=p.s;b.className=i==ti?'on':'';b.onclick=()=>{ti=i;go()};$('tt').appendChild(b)});
+ MN.forEach((p,i)=>{const b=document.createElement('button');b.textContent=p;b.className=i==mi?'on':'';b.onclick=()=>{mi=i;go()};$('mt').appendChild(b)})}
+function go(){const tp=TP[ti];rec=[];S={};tp.sl.forEach(d=>S[d.id]=d.val);
+ if(mi>0)tp.sl.forEach(d=>{if(mi==1?!d.gm:!d.lb)S[d.id]=rnd(d)});
+ T=0;bal.a=0;tabs();$('note').textContent=NT[mi];$('rule').innerHTML='<b>'+tp.n+'</b> — '+tp.rule;
+ $('gm').style.display=mi==1?'':'none';$('lb').style.display=mi==2?'':'none';
+ if(mi==1){task=tp.mk(S);$('fb').textContent='';$('ans').value=''}
+ if(mi==2){$('lt').innerHTML='<b>Topshiriq:</b> '+tp.lab.t;tb()}
+ ctl();upd()}
+function ctl(){const e=$('ctl');e.innerHTML='';TP[ti].sl.forEach(d=>{if(mi==1?!d.gm:mi==2?!d.lb:0)return;
+ const r=document.createElement('div');r.className='row';const sh=v=>d.o?d.o[v]:fmt(v)+' '+d.u;
+ r.innerHTML=`<label>${d.n}</label><input type="range" min="${d.min}" max="${d.max}" step="${d.step}" value="${S[d.id]}"><span>${sh(S[d.id])}</span>`;
+ r.querySelector('input').oninput=ev=>{S[d.id]=+ev.target.value;r.querySelector('span').textContent=sh(S[d.id]);if(d.id=='f'||d.id=='D')T=0;upd()};e.appendChild(r)})}
+function upd(){const tp=TP[ti];$('out').innerHTML=mi==1?(typeof task.q=='function'?task.q():task.q):tp.info(S,mi==0)}
+function chk(){const a=parseFloat($('ans').value.replace(',','.'));if(isNaN(a))return;
+ const ok=Math.abs(a-task.ans)<=task.tol;sc[1]++;if(ok)sc[0]++;
+ $('fb').innerHTML=ok?'<span class="ok">To‘g‘ri! ✔</span>':'<span class="no">Noto‘g‘ri ✘</span> To‘g‘ri javob: <b>'+fmt(task.ans)+' '+task.u+'</b>';
+ $('sc').textContent='Ball: '+sc[0]+' / '+sc[1]}
+function rec1(){const tp=TP[ti];if(tp.ready&&!tp.ready(S)){$('tb').innerHTML='<div class="no">'+tp.rd+'</div>';return}
+ rec.push(+(tp.lab.f(S)*(1+(Math.random()-.5)*tp.lab.e)).toFixed(2));tb()}
+function tb(){const tp=TP[ti];if(!rec.length){$('tb').innerHTML='<div class="mut">Hozircha o‘lchov yo‘q.</div>';return}
+ const m=rec.reduce((a,b)=>a+b,0)/rec.length;
+ $('tb').innerHTML='<table><tr><th>№</th><th>'+tp.lab.n+'</th></tr>'+rec.map((v,i)=>`<tr><td>${i+1}</td><td>${fmt(v)}</td></tr>`).join('')+`</table><div class="out">O‘rtacha: <b>${fmt(m)}</b>`+(tp.lab.post?'<br>'+tp.lab.post(m):'')+'</div>'}
+let last=0;function loop(ts){const dt=Math.min((ts-last)/1000,.1);last=ts;T+=dt;c.fillStyle='#eaf3ff';c.fillRect(0,0,W,H);TP[ti].draw(S,T);requestAnimationFrame(loop)}
+go();requestAnimationFrame(loop);
+</script></body></html>
